@@ -1,6 +1,7 @@
 "use client"
 
 import register from '@/actions/register'
+import withPublic from '@/hoc/withPublic'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -45,4 +46,4 @@ const RegisterPage = () => {
   )
 }
     
-export default RegisterPage
+export default withPublic(RegisterPage)

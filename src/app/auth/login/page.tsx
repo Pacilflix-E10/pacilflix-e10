@@ -1,6 +1,7 @@
 "use client"
 
 import login from '@/actions/login'
+import withPublic from '@/hoc/withPublic';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 
@@ -41,4 +42,4 @@ const LoginPage = () => {
   )
 }
     
-export default LoginPage
+export default withPublic(LoginPage)
