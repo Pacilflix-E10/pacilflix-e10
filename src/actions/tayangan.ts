@@ -17,7 +17,7 @@ export async function getTopTenTayangan() {
     const QUERY = `
         SELECT ta.id, ta.judul, ta.sinopsis, ta.asal_negara, ta.url_video_trailer, ta.release_date_trailer, ta.id_sutradara, COALESCE(rt.total_view, 0) as total_view
         FROM tayangan ta
-        JOIN (
+        LEFT JOIN (
             SELECT id_tayangan, COUNT(*) as total_view
             FROM riwayat_nonton 
             WHERE end_date_time > NOW() - INTERVAL '7 days'
