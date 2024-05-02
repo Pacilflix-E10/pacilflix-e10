@@ -11,7 +11,7 @@ async function register(formData: FormData) {
 
     console.log(fields);
 
-    const { } = await sql`INSERT INTO pengguna (username, password) VALUES (${formData.get("username")?.toString()}, ${formData.get("password")?.toString()});`
+    const { } = await sql`INSERT INTO pengguna (username, password, negara_asal) VALUES (${formData.get("username")?.toString()}, ${formData.get("password")?.toString()}, ${formData.get("negara")?.toString()});`
 
     return "Register Successfull"
 }
