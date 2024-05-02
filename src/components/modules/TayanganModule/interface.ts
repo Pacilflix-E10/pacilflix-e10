@@ -1,5 +1,5 @@
-export interface Film {
-    id: number;
+export interface tayanganInterface {
+    id: string;
     judul: string;
     total_view: number;
     sinopsis: string;

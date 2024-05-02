@@ -6,7 +6,7 @@ export const HasilPencarian = () => {
     let data = [
         {
             id: "1",
-            judul: "Itaewon Class",
+            judul: "Little Women",
             sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
             url_trailer: "https://www.netflix.com",
             tanggal_rilis_trailer: "01/01/2001",
@@ -14,7 +14,7 @@ export const HasilPencarian = () => {
         },
         {
             id: "2",
-            judul: "City Hunter",
+            judul: "My Little Pony",
             sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
             url_trailer: "https://www.netflix.com",
             tanggal_rilis_trailer: "01/01/2004",
