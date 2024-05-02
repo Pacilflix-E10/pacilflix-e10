@@ -16,7 +16,7 @@ const RegisterPage = () => {
         <form onSubmit={(e) => {
           e.preventDefault();
           const formData = new FormData(e.currentTarget);
-          if (!formData.get('username') || !formData.get('password') || formData.get("username")!.length < 5 || formData.get("password")!.length < 6 ) return alert('Please fill in all fields');
+          if (!formData.get('username') || !formData.get('password') || formData.get("username")!.length < 5 || formData.get("password")!.length < 6 || !formData.get('negara')) return alert('Please fill in all fields');
           register(formData).then(res => {
             if (res === 'Register Successfull') router.push("/auth/login");
             if (res === 'User already exist') return alert('User already exist');
@@ -35,6 +35,12 @@ const RegisterPage = () => {
               <input name="password" type="password" className="grow" placeholder='Password' />
             </label>
               <small>Password must be longer than 5 characters</small>
+            </div>
+            <div className="">
+            <label className="input input-bordered flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32"><path d="M31,8c0-2.209-1.791-4-4-4H5c-2.209,0-4,1.791-4,4v9H31V8Z" fill="#ea3323"></path><path d="M5,28H27c2.209,0,4-1.791,4-4v-8H1v8c0,2.209,1.791,4,4,4Z" fill="#fff"></path><path d="M5,28H27c2.209,0,4-1.791,4-4V8c0-2.209-1.791-4-4-4H5c-2.209,0-4,1.791-4,4V24c0,2.209,1.791,4,4,4ZM2,8c0-1.654,1.346-3,3-3H27c1.654,0,3,1.346,3,3V24c0,1.654-1.346,3-3,3H5c-1.654,0-3-1.346-3-3V8Z" opacity=".15"></path><path d="M27,5H5c-1.657,0-3,1.343-3,3v1c0-1.657,1.343-3,3-3H27c1.657,0,3,1.343,3,3v-1c0-1.657-1.343-3-3-3Z" fill="#fff" opacity=".2"></path></svg>
+              <input name="negara" type="text" className="grow" placeholder='Country' />
+            </label>
             </div>
             <button className="btn btn-primary">Sign up</button>
         </form>
