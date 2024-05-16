@@ -30,7 +30,8 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
             </h1>
 
             <div className="flex flex-col space-y-5">
-                <h2 className="text-2xl font-bold">Judul: {judul}</h2>            
+                <h2 className="text-2xl font-bold">Judul: {judul}</h2>  
+                <input type="range" min={0} max="100" className="range range-success range-sm bg-black" />
                 <div className="flex flex-col space-y-3">
                     <button className="btn btn-primary"> Tonton </button>
                     <button className="btn btn-primary"> Unduh Tayangan </button>

@@ -24,7 +24,8 @@ const halamanSeries = ({ params }: { params: { slug: string, eps: string } }) =>
             <div className="flex flex-col space-y-5">
                 <div>
                     <h2 className="text-xl font-bold">Judul: {judul}</h2>            
-                    <h2 className="text-2xl font-bold">Sub Judul: {subJudul}</h2>            
+                    <h2 className="text-2xl font-bold">Sub Judul: {subJudul}</h2>    
+                    <input type="range" min={0} max="100" className="range range-success range-sm bg-black" />        
                 </div>
 
                 <div>
