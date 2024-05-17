@@ -1,18 +1,26 @@
-export const BagianUlasan = () => {
-    let ulasan = [
-        {
-            id: 1,
-            username: "John Doe",
-            deskripsi: "Lorem Ipsum",
-            rating: 4
-        },
-        {
-            id: 2,
-            username: "Jane Doe",
-            deskripsi: "Lorem Ipsum",
-            rating: 5
+'use client'
+
+import { getUlasan } from "@/actions/tayangan";
+import { useEffect, useState } from "react"
+
+interface ulasanInterface {
+    id: number;
+    username: string;
+    deskripsi: string;
+    rating: number;
+}
+
+export const BagianUlasan = ({ id }: { id: string }) => {
+    const [ulasan, setUlasan] = useState<ulasanInterface[]>([]); 
+
+    useEffect(() => {
+        const getData = async () => {
+            const data = await getUlasan(id);
+            setUlasan(data); 
+            console.log(data);
         }
-    ]
+        getData();
+    }, []); 
 
     return (
         <section className="flex flex-col gap-6">
@@ -33,7 +41,7 @@ export const BagianUlasan = () => {
 
             <p className="font-bold font-lg">Daftar Ulasan:</p>
             <div className="flex flex-col space-y-5">
-                {ulasan.map((u) => (
+                {ulasan?.map((u) => (
                     <div key={u.id} className="flex flex-col space-y-3">
                         <p><span className="font-medium"> Username: </span> {u.username} </p>
                         <p><span className="font-medium"> Deskripsi: </span> {u.deskripsi} </p>

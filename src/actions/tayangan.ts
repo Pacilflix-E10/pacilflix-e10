@@ -251,3 +251,14 @@ export async function getEpisodeById(id: string, eps: string) {
 
     return result;
 }
+
+export async function getUlasan(id: string) {
+    const QUERY = `
+        SELECT id_tayangan as id, username, rating, deskripsi
+        FROM ulasan
+        WHERE id_tayangan = '${id}'
+        ORDER BY timestamp DESC;
+    `;
+    const { rows } = await sql.query(QUERY);
+    return rows;
+}

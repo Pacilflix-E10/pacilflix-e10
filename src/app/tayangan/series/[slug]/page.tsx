@@ -94,7 +94,7 @@ const halamanSeries = ({ params }: { params: { slug: string } }) => {
                     
                 <p><span className="font-medium"> Sutradara: </span> {series?.sutradara}</p>
 
-                <BagianUlasan /> 
+                <BagianUlasan id={params.slug} /> 
             </div>
 
         </section>

@@ -87,7 +87,7 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
         </p>
       </div>
 
-      <BagianUlasan />
+      <BagianUlasan id={params.slug}/>
     </section>
   );
 };
