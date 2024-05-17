@@ -1,27 +1,39 @@
-import { getAllFilm } from "@/actions/tayangan";
+"use client";
+import { getAllFilm, getFilmById } from "@/actions/tayangan";
+import { MONTH } from "@/components/modules/LanggananModule/constant";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
+import { useEffect, useState } from "react";
+
+interface filmInterface {
+  judul: string;
+  total_view: number; //
+  rating_rata_rata: number; //
+  sinopsis: string;
+  durasi_film: number;
+  release_date_film: Date;
+  url_video_film: string;
+  genres: string[]; //
+  asal_negara: string;
+  pemain: string[]; //
+  penulis: string[]; //
+  sutradara: string; //
+}
 
 const halamanFilm = ({ params }: { params: { slug: string } }) => {
-    let judul = "City Hunter"; 
+  const [film, setFilm] = useState<filmInterface>();
 
-    let totalView = 234523; 
-    let ratingRataRata = 2.5; 
-    let sinopsis = "Lorem Ipsum"; 
-    let durasiJam = 1; 
-    let durasiMenit = 40; 
-    let tanggalRilis = "01/01/2001"; 
-    let urlFilm = "http"; 
-    let genres = ["comedy", "romance"]
-    let asalNegara = "Jepang"; 
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getFilmById(params.slug);
+      setFilm(data);
+    };
 
-    let pemain = ["Ryohei Suzuki", "Misato Morita", "Masanobu Ando"]; 
-    let penulis = ["Tatsuro Mishima"]; 
-    let sutradara = "Yuichi Sato"; 
+    getData();
+  }, []);
 
-    getAllFilm()
-        .then(res => {
-            console.log("res");
-        })
+  getAllFilm().then((res) => {
+    console.log("res");
+  });
 
     return (
         <section className="flex flex-col gap-6 px-4 md:px-10 py-3 md:py-5 mt-20">
@@ -55,30 +67,32 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
                     <p><span className="font-medium"> Asal Negara: </span> {asalNegara} </p>
                 </div>
 
-                <div>
-                    <p className="font-medium">Pemain:</p>
-                    <ul className="list-disc list-inside">
-                        {pemain.map((p) => (
-                            <li key={p}>{p}</li>
-                        ))}
-                    </ul>
-                </div>
+        <div>
+          <p className="font-medium">Pemain:</p>
+          <ul className="list-disc list-inside">
+            {film?.pemain.map((p) => (
+              <li key={p}>{p}</li>
+            ))}
+          </ul>
+        </div>
 
-                <div>                
-                    <p className="font-medium"> Penulis Skenario:</p>
-                    <ul className="list-disc list-inside">                    
-                        {penulis.map((p) => (
-                            <li key={p}>{p}</li>
-                        ))}
-                    </ul>
-                </div>
-                    
-                <p><span className="font-medium"> Sutradara: </span> {sutradara}</p>
-            </div>
+        <div>
+          <p className="font-medium"> Penulis Skenario:</p>
+          <ul className="list-disc list-inside">
+            {film?.penulis.map((p) => (
+              <li key={p}>{p}</li>
+            ))}
+          </ul>
+        </div>
 
-            <BagianUlasan /> 
-        </section>
-    ); 
-}
+        <p>
+          <span className="font-medium"> Sutradara: </span> {film?.sutradara}
+        </p>
+      </div>
 
-export default halamanFilm; 
+      <BagianUlasan />
+    </section>
+  );
+};
+
+export default halamanFilm;
