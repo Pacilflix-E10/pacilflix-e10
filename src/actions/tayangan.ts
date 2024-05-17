@@ -262,3 +262,12 @@ export async function getUlasan(id: string) {
     const { rows } = await sql.query(QUERY);
     return rows;
 }
+
+export async function createUlasan(id: string, username: string, rating: number, deskripsi: string) {
+    const timestamp = new Date().toISOString();
+    const QUERY = `
+        INSERT INTO ulasan (id_tayangan, username, rating, deskripsi, timestamp)
+        VALUES ('${id}', '${username}', ${rating}, '${deskripsi}', '${timestamp}');
+    `;
+    await sql.query(QUERY);
+}

@@ -27,20 +27,6 @@ const halamanEpisode = ({ params }: { params: { slug: string, eps: string } }) =
         getData();        
     }, []); 
 
-    let judul = "Spongebob Squarepants"; 
-    let subJudul = "Spongebob VS the Goo"; 
-    let episodeLinks = [
-        params.slug,
-        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",
-        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
-    ]; 
-
-    let sinopsis = "Lorem Ipsum"; 
-    let durasiJam = 1; 
-    let durasiMenit = 40; 
-    let tanggalRilis = "01/01/2001"; 
-    let urlEpisode = "http"; 
-
     return (
         <section className="flex flex-col gap-6 px-4 md:px-10 py-3 md:py-5 mt-20">
             <h1 className="text-center font-bold text-[24px]">
