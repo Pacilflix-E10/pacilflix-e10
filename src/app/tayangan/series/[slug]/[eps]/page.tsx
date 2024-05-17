@@ -1,10 +1,35 @@
+'use client'
+import { getEpisodeById } from "@/actions/tayangan";
+import { MONTH } from "@/components/modules/LanggananModule/constant";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const halamanSeries = ({ params }: { params: { slug: string, eps: string } }) => {
+interface episodeInterface {
+    judul: string;
+    subjudul: string;
+    other_subjudul: string[];
+    sinopsis: string;
+    durasi: number; 
+    release_date: Date;
+    url_video: string;
+}
+
+const halamanEpisode = ({ params }: { params: { slug: string, eps: string } }) => {
+    const [episode, setEpisode] = useState<episodeInterface>(); 
+    useEffect(() => {
+        const getData = async () => {
+            const data = await getEpisodeById(params.slug, params.eps); 
+            console.log(data); 
+            setEpisode(data); 
+        };
+        getData();        
+    }, []); 
+
     let judul = "Spongebob Squarepants"; 
     let subJudul = "Spongebob VS the Goo"; 
     let episodeLinks = [
-        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley", 
+        params.slug,
         "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",
         "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
     ]; 
@@ -23,16 +48,16 @@ const halamanSeries = ({ params }: { params: { slug: string, eps: string } }) =>
 
             <div className="flex flex-col space-y-5">
                 <div>
-                    <h2 className="text-xl font-bold">Judul: {judul}</h2>            
-                    <h2 className="text-2xl font-bold">Sub Judul: {subJudul}</h2>    
+                    <h2 className="text-xl font-bold">Judul: {episode?.judul}</h2>            
+                    <h2 className="text-2xl font-bold">Sub Judul: {episode?.subjudul}</h2>    
                     <input type="range" min={0} max="100" className="range range-success range-sm bg-black" />        
                 </div>
 
                 <div>
                     <p className="text-l font-bold">Episode Lainnya:</p>
                     <ul className="list-disc list-inside">
-                        {episodeLinks.map((ep, idx) => (
-                            <li key={ep}><a href={ep}>Episode {idx+1} </a></li>
+                        {episode?.other_subjudul.map((ep, idx) => (
+                            <li key={ep}><Link href={ep}>{ep}</Link></li>
                         ))}
                     </ul>
                 </div>
@@ -41,14 +66,14 @@ const halamanSeries = ({ params }: { params: { slug: string, eps: string } }) =>
                     <button className="btn btn-primary"> Tonton </button>
                 </div>
                 <div>                    
-                    <p><span className="font-medium"> Sinopsis: </span>  {sinopsis} </p>
-                    <p><span className="font-medium"> Durasi Episode: </span>  {durasiJam} jam {durasiMenit} menit</p>
-                    <p><span className="font-medium"> URL Episode: </span> {urlEpisode} </p>
-                    <p><span className="font-medium"> Tanggal Rilis Episode: </span>  {tanggalRilis} </p>                    
+                    <p><span className="font-medium"> Sinopsis: </span>  {episode?.sinopsis} </p>
+                    <p><span className="font-medium"> Durasi Episode: </span>  {episode?Math.floor(episode.durasi/60):""} jam {episode? episode.durasi % 60:""} menit</p>
+                    <p><span className="font-medium"> URL Episode: </span> {episode?.url_video} </p>
+                    <p><span className="font-medium"> Tanggal Rilis Episode: </span>  {episode?.release_date.getDate()} {episode?MONTH[episode.release_date.getMonth()]:""} {episode?.release_date.getFullYear()} </p>                    
                 </div>                
             </div>
         </section>
     ); 
 }
 
-export default halamanSeries; 
+export default halamanEpisode; 

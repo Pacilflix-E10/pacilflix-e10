@@ -9,7 +9,7 @@ export const Film = () => {
   const [filmList, setFilmList] = useState<filmInterface[]>([]);
 
   useEffect(() => {
-    async function getData() {
+    const getData = async () => {
       const data = await getAllFilm();
       setFilmList(data);
     }

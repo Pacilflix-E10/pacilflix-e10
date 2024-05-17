@@ -1,5 +1,5 @@
 "use client";
-import { getAllFilm, getFilmById } from "@/actions/tayangan";
+import { getFilmById } from "@/actions/tayangan";
 import { MONTH } from "@/components/modules/LanggananModule/constant";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
 import { useEffect, useState } from "react";
@@ -30,10 +30,6 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
 
     getData();
   }, []);
-
-  getAllFilm().then((res) => {
-    console.log("res");
-  });
 
     return (
         <section className="flex flex-col gap-6 px-4 md:px-10 py-3 md:py-5 mt-20">
