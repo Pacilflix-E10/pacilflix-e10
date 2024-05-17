@@ -2,6 +2,7 @@
 import { getEpisodeById } from "@/actions/tayangan";
 import { MONTH } from "@/components/modules/LanggananModule/constant";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
+import withAuth from "@/hoc/withAuth";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -76,4 +77,4 @@ const halamanEpisode = ({ params }: { params: { slug: string, eps: string } }) =
     ); 
 }
 
-export default halamanEpisode; 
+export default withAuth(halamanEpisode); 

@@ -1,6 +1,7 @@
 'use client'
 import { getSeriesById } from "@/actions/tayangan";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
+import withAuth from "@/hoc/withAuth";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -100,4 +101,4 @@ const halamanSeries = ({ params }: { params: { slug: string } }) => {
     ); 
 }
 
-export default halamanSeries; 
+export default withAuth(halamanSeries); 

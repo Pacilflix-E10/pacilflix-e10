@@ -2,6 +2,7 @@
 import { getFilmById } from "@/actions/tayangan";
 import { MONTH } from "@/components/modules/LanggananModule/constant";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
+import withAuth from "@/hoc/withAuth";
 import { useEffect, useState } from "react";
 
 interface filmInterface {
@@ -91,4 +92,4 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default halamanFilm;
+export default withAuth(halamanFilm);
