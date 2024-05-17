@@ -42,7 +42,7 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
             </h1>
 
             <div className="flex flex-col space-y-5">
-                <h2 className="text-2xl font-bold">Judul: {judul}</h2>  
+                <h2 className="text-2xl font-bold">Judul: {film?.judul}</h2>  
                 <input type="range" min={0} max="100" className="range range-success range-sm bg-black" />
                 <div className="flex flex-col space-y-3">
                     <button className="btn btn-primary"> Tonton </button>
@@ -50,21 +50,21 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
                     <button className="btn btn-primary"> Favorit Tayangan </button>
                 </div>
                 <div>
-                    <p><span className="font-medium"> Total View: </span> {totalView} </p>
-                    <p><span className="font-medium"> Rating Rata-Rata: </span> {ratingRataRata} </p>
-                    <p><span className="font-medium"> Sinopsis: </span>  {sinopsis} </p>
-                    <p><span className="font-medium"> Durasi Film: </span>  {durasiJam} jam {durasiMenit} menit</p>
-                    <p><span className="font-medium"> Tanggal Rilis Film: </span>  {tanggalRilis} </p>
-                    <p><span className="font-medium"> URL Film: </span> {urlFilm} </p>
+                    <p><span className="font-medium"> Total View: </span> {film?.total_view} </p>
+                    <p><span className="font-medium"> Rating Rata-Rata: </span> {film?.rating_rata_rata} </p>
+                    <p><span className="font-medium"> Sinopsis: </span>  {film?.sinopsis} </p>
+                    <p><span className="font-medium"> Durasi Film: </span>  {film?Math.floor(film.durasi_film/60):""} jam {film?film.durasi_film%60:""} menit</p>
+                    <p><span className="font-medium"> Tanggal Rilis Film: </span>  {film?.release_date_film.getDate()} {film?MONTH[film?.release_date_film.getMonth()]:""} {film?.release_date_film.getFullYear()}</p>
+                    <p><span className="font-medium"> URL Film: </span> {film?.url_video_film} </p>
                     <div>
                         <p className="font-medium"> Genre: </p>
                         <ul className="list-disc list-inside">
-                            {genres.map((genre) => (
+                            {film?.genres.map((genre) => (
                                 <li key={genre}>{genre}</li>
                             ))}
                         </ul>
                     </div>
-                    <p><span className="font-medium"> Asal Negara: </span> {asalNegara} </p>
+                    <p><span className="font-medium"> Asal Negara: </span> {film?.asal_negara} </p>
                 </div>
 
         <div>
