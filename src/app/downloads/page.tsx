@@ -6,15 +6,12 @@ import downloads from "./api/download";
 import deleteDownloadedItem from "@/app/downloads/api/delete";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
 import { title } from "process";
-import FavouriteListModal from "@/app/daftar_favorit/components/FavouriteListModal";
 
 const DownloadsPage = () => {
   const [username, setUsername] = useState("");
   const [downloadedItems, setDownloadedItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [showFavouriteListModal, setShowFavouriteListModal] = useState(false);
-  const [selectedMovieTitle, setSelectedMovieTitle] = useState("");
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -48,6 +45,8 @@ const DownloadsPage = () => {
         );
         fetchDownloads(username); // Fetch updated data from the server
       } else {
+        setModalMessage(`"${judul}" minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.`);
+        setShowModal(true);
         console.log(data); // Handle the case when the item is not found
       }
     } catch (error) {
@@ -61,10 +60,6 @@ const DownloadsPage = () => {
 
   const handleModalConfirm = () => {
     // No need to fetch downloads here
-  };
-
-  const handleViewModal = () => {
-    setShowFavouriteListModal(!showFavouriteListModal);
   };
 
   return (
@@ -96,15 +91,6 @@ const DownloadsPage = () => {
                     >
                       Delete
                     </button>
-                    <button
-                      className="btn btn-outline btn-primary btn-sm ml-2"
-                      onClick={() => {
-                        setSelectedMovieTitle(item.judul);
-                        handleViewModal();
-                      }}
-                    >
-                      View Modal
-                    </button>
                   </td>
                 </tr>
               ))}
@@ -118,13 +104,6 @@ const DownloadsPage = () => {
           message={modalMessage}
         />
       </div>
-      <FavouriteListModal
-        show={showFavouriteListModal}
-        onClose={() => setShowFavouriteListModal(false)}
-        username={username}
-        judul={selectedMovieTitle} // Pass the selected movie title
-        onConfirm={(timestamp) => console.log(`Selected timestamp: ${timestamp}`)}
-      />
     </div>
   );
 };

@@ -14,7 +14,7 @@ async function getMovieFav(timestamp: string): Promise<MovieFav[] | string> {
 
   const timestampDate = new Date(timestamp);
 
-  // Query to retrieve movie favorites data with judul from DAFTAR_TAYANGAN
+  try {
   const { rowCount, rows } = await sql`
     SELECT tm.username, tm.timestamp, t.judul, df.judul AS judulDaftar
     FROM TAYANGAN_MEMILIKI_DAFTAR_FAVORIT tm
@@ -40,6 +40,10 @@ async function getMovieFav(timestamp: string): Promise<MovieFav[] | string> {
   }));
 
   return movieFavs;
+  } catch (error) {
+    console.log(error);
+    return "Error";
+  }
 }
 
 export default getMovieFav;

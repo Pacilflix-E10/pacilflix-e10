@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import getMovieFav from "@/app/daftar_favorit/api/getDetail";
+import getMovieFav from "@/app/favorites/api/getDetail";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
 import deleteFavMovie from "../api/delDetail";
 
@@ -97,10 +97,10 @@ const MovieListPage = () => {
                     className="btn btn-outline btn-error btn-sm text-center"
                     onClick={() =>
                       deleteMovieFromFavorite(
+                        movie.username,
                         movie.judul,
-                        movie.judulDaftar,
                         movie.timestamp,
-                        movie.judulDaftar
+                        movie.judulDaftar,
                       )
                     }
                   >

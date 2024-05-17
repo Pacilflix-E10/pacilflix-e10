@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
-import getfav from "@/app/daftar_favorit/api/getFav";
-import deleteDaftarFavorit from "@/app/daftar_favorit/api/delFav";
+import getfav from "@/app/favorites/api/getFav";
+import deleteDaftarFavorit from "@/app/favorites/api/delFav";
 
 
 interface DaftarFav {
@@ -66,7 +66,7 @@ const FavouritesPage = () => {
   };
 
   const handleTitleClick = (timestamp: string) => {
-    router.push(`/daftar_favorit/movielist?timestamp=${timestamp}`);
+    router.push(`/favorites/movielist?timestamp=${timestamp}`);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import getfav from '@/app/daftar_favorit/api/getFav';
+import getfav from '@/app/favorites/api/getFav';
 
 interface FavouriteListModalProps {
   show: boolean;
