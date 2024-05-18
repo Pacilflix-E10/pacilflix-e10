@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getAllFilm, getFilmById } from "@/actions/tayangan";
+import { getFilmById, saveRiwayatNonton } from "@/actions/tayangan";
 import { MONTH } from "@/components/modules/LanggananModule/constant";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
 import DownloadModal from "@/app/downloads/components/DownloadModal";
@@ -8,6 +8,7 @@ import downloadItem from "@/app/downloads/api/downloadMovie";
 import FavouriteListModal from "@/app/favorites/components/FavouriteListModal";
 import addToFav from "@/app/favorites/api/addToFav";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
+import withAuth from "@/hoc/withAuth";
 
 interface filmInterface {
   judul: string;
@@ -32,6 +33,7 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [selectedMovieTitle, setSelectedMovieTitle] = useState("");
+  const [rangeValue, setRangeValue] = useState(0);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -88,15 +90,27 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
     }
   };
 
+  const handleRangeChange = (e: any) => {
+    setRangeValue(e.target.value);
+  }
+
+  const handleTonton = (e: any) => {    
+    const username = localStorage.getItem('username');
+    if (!film || !username || rangeValue < 70) return;
+    const end_date = new Date();
+    const start_date = new Date(end_date.getTime() - rangeValue / 100 * film.durasi_film * 60000);
+    saveRiwayatNonton(params.slug, username, start_date, end_date);
+  }
+
   return (
     <section className="flex flex-col gap-6 px-4 md:px-10 py-3 md:py-5 mt-20">
       <h1 className="text-center font-bold text-[24px]">HALAMAN FILM</h1>
 
       <div className="flex flex-col space-y-5">
         <h2 className="text-2xl font-bold">Judul: {film?.judul}</h2>
-        <input type="range" min={0} max="100" className="range range-success range-sm bg-black" />
+        <input type="range" min={0} max="100" value={rangeValue} onChange={handleRangeChange} className="range range-success range-sm bg-black" />
         <div className="flex flex-col space-y-3">
-          <button className="btn btn-primary"> Tonton </button>
+          <button className="btn btn-primary" onClick={handleTonton}> Tonton </button>
           <button className="btn btn-primary" onClick={handleDownload}> Unduh Tayangan </button>
           <button className="btn btn-primary" onClick={handleAddToFavorite}> Favorit Tayangan </button>
         </div>
@@ -141,7 +155,7 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
         </p>
       </div>
 
-      <BagianUlasan />
+      <BagianUlasan id={params.slug} />
 
       <DownloadModal
         show={showDownloadModal}
@@ -167,4 +181,4 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default halamanFilm;
+export default withAuth(halamanFilm);
