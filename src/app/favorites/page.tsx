@@ -72,7 +72,7 @@ const FavouritesPage = () => {
     <div className="p-4" style={{ minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
       <div className="flex flex-col items-center justify-center p-4 mt-20">
         <h1 className="text-4xl font-bold text-center mb-10 mt-5 text-gray-700">
-          {username}'s Favourite List
+          {username}'s Favorites List
         </h1>
         <div className="overflow-x-auto shadow-lg rounded-lg w-10/12">
           <table className="table table-zebra rounded-lg">
