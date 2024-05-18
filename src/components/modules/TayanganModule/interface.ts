@@ -7,6 +7,8 @@ export interface tayanganInterface {
     url_video_trailer: string; 
     release_date_trailer: Date; 
     id_sutradara: string;
+    total_view: number;
+    is_film: boolean;
 }
 
 export interface filmInterface extends tayanganInterface {

@@ -1,90 +1,22 @@
+'use client'; 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { tayanganInterface } from "../interface";
+import { checkIsFilm, getTopTenTayangan } from "@/actions/tayangan";
+import { MONTH } from "../constants";
+import { usePathname } from "next/navigation";
+
 
 export const TayanganTerbaik = () => {
-    let data = [
-        {
-            judul: "Queen of Tears",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "Baby Reindeer", 
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "The Last Five Years",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "The Greatest Showman",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "La La Land",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "The Notebook",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "Crazy Rich Asians",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "The Fault in Our Stars",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "A Star is Born",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
-        },
-        {
-            judul: "Spongebob Squarepants: The Movie",
-            sinopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut libero nec odio ultricies lacinia. Nullam nec nunc nec libero.",
-            url: "https://www.netflix.com",
-            tanggalRilis: "01/01/2001",
-            totalView: 12345,
-            tayangan: "https://www.netflix.com"
+    const [data, setData] = useState<tayanganInterface[]>([]);
+    useEffect(() => {
+        const getData = async () => {
+            const res = await getTopTenTayangan(); 
+            setData(res);
+            console.log(res);
         }
-    ]
-
+        getData();
+    }, []);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -111,15 +43,15 @@ export const TayanganTerbaik = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {data.map((d, idx) => (
-                        <tr>
+                    {data?.map((d, idx) => (
+                        <tr key={idx}>
                             <th>{idx+1}</th>
                             <td>{d.judul}</td>
                             <td>{d.sinopsis}</td>
-                            <td>{d.url}</td>
-                            <td>{d.tanggalRilis}</td>
-                            <td>{d.totalView}</td>
-                            {isLoggedIn && <td><Link href={d.tayangan}><button className="btn">Nonton</button></Link> </td>}                            
+                            <td>{d.url_video_trailer}</td>
+                            <td>{d.release_date_trailer.getDate()} {MONTH[d.release_date_trailer.getMonth()] [d.release_date_trailer.getFullYear()]}</td>
+                            <td>{d.total_view}</td>
+                            {isLoggedIn && <td><Link href={d.is_film?'/tayangan/film/'+d.id:'/tayangan/series/'+d.id}><button className="btn">Nonton</button></Link> </td>}                            
                         </tr>
                     ))}
                     </tbody>

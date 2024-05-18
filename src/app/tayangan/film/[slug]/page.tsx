@@ -1,5 +1,5 @@
 "use client";
-import { getFilmById } from "@/actions/tayangan";
+import { getFilmById, saveRiwayatNonton } from "@/actions/tayangan";
 import { MONTH } from "@/components/modules/LanggananModule/constant";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
 import withAuth from "@/hoc/withAuth";
@@ -22,6 +22,7 @@ interface filmInterface {
 
 const halamanFilm = ({ params }: { params: { slug: string } }) => {
   const [film, setFilm] = useState<filmInterface>();
+  const [rangeValue, setRangeValue] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -32,6 +33,18 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
     getData();
   }, []);
 
+  const handleRangeChange = (e: any) => {
+    setRangeValue(e.target.value);
+  }
+
+  const handleTonton = (e: any) => {    
+    const username = localStorage.getItem('username');
+    if (!film || !username || rangeValue < 70) return;
+    const end_date = new Date();
+    const start_date = new Date(end_date.getTime() - rangeValue/100*film.durasi_film * 60000);
+    saveRiwayatNonton(params.slug, username, start_date, end_date);
+  }
+
     return (
         <section className="flex flex-col gap-6 px-4 md:px-10 py-3 md:py-5 mt-20">
             <h1 className="text-center font-bold text-[24px]">
@@ -40,9 +53,9 @@ const halamanFilm = ({ params }: { params: { slug: string } }) => {
 
             <div className="flex flex-col space-y-5">
                 <h2 className="text-2xl font-bold">Judul: {film?.judul}</h2>  
-                <input type="range" min={0} max="100" className="range range-success range-sm bg-black" />
+                <input type="range" min={0} max="100" value={rangeValue} onChange={handleRangeChange} className="range range-success range-sm bg-black" />
                 <div className="flex flex-col space-y-3">
-                    <button className="btn btn-primary"> Tonton </button>
+                    <button className="btn btn-primary" onClick={handleTonton}> Tonton </button>
                     <button className="btn btn-primary"> Unduh Tayangan </button>
                     <button className="btn btn-primary"> Favorit Tayangan </button>
                 </div>

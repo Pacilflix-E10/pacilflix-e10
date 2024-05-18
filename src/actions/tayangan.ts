@@ -14,6 +14,17 @@ export async function getAllSeries() {
 }
 
 export async function getTopTenTayangan() {
+    const QUERY = `
+        SELECT ta.id, ta.judul, ta.sinopsis, ta.asal_negara, ta.url_video_trailer, ta.release_date_trailer, ta.id_sutradara, COALESCE(COUNT(*),0) AS total_view
+        FROM tayangan ta
+        LEFT JOIN riwayat_nonton rn
+        ON ta.id = rn.id_tayangan 
+        GROUP BY ta.id
+        ORDER BY total_view DESC
+        LIMIT 10;
+    `; 
+    const { rows } = await sql.query(QUERY);
+    return rows
 }
 
 export async function searchTayangan(filter: string) {
@@ -92,7 +103,6 @@ export async function getFilmById(id: string) {
     const { rows: rowsSutradara } = await sql.query(QUERY_SUTRADARA);
     result.sutradara = rowsSutradara[0].nama;
 
-    // TODO: ubah cuma kalau 70% ditonton
     const QUERY_TOTAL_VIEW = `
         SELECT id_tayangan, COUNT(*)
         FROM riwayat_nonton 
@@ -116,15 +126,15 @@ export async function getFilmById(id: string) {
 export async function getSeriesById(id: string) {
     const result = {
         judul: "",
-        eps_subjudul: [], //
-        total_view: 0, //
-        rating_rata_rata: 0, //
+        eps_subjudul: [], 
+        total_view: 0, 
+        rating_rata_rata: 0, 
         sinopsis: "",
         genres: [],
         asal_negara: "", 
-        pemain: [], //
-        penulis: [], //
-        sutradara: "" //
+        pemain: [], 
+        penulis: [], 
+        sutradara: "" 
     }
 
     const QUERY = `
@@ -270,4 +280,22 @@ export async function createUlasan(id: string, username: string, rating: number,
         VALUES ('${id}', '${username}', ${rating}, '${deskripsi}', '${timestamp}');
     `;
     await sql.query(QUERY);
+}
+
+export async function saveRiwayatNonton(id_tayangan: string, username: string, start_date_time: Date, end_date_time: Date) {
+    const QUERY = `
+        INSERT INTO riwayat_nonton (id_tayangan, username, start_date_time, end_date_time)
+        VALUES ('${id_tayangan}', '${username}', '${start_date_time.toISOString()}', '${end_date_time.toISOString()}');
+    `;
+    await sql.query(QUERY);
+}
+
+export async function checkIsFilm(id: string) {
+    const QUERY = `
+        SELECT *
+        FROM film
+        WHERE id_tayangan = '${id}';
+    `;
+    const { rows } = await sql.query(QUERY);
+    return rows.length > 0; 
 }
