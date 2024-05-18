@@ -2,9 +2,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import getMovieFav from "@/app/favorites/api/getDetail";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
-import deleteFavMovie from "../api/delDetail";
+import { deleteFavMovie, getMovieFav } from "@/actions/favorites";
 
 interface MovieData {
   judul: string;

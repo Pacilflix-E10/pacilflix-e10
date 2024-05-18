@@ -1,9 +1,14 @@
-'use client'
+'use client';
 import { getSeriesById } from "@/actions/tayangan";
 import { BagianUlasan } from "@/components/modules/TayanganModule/sections/BagianUlasan";
 import withAuth from "@/hoc/withAuth";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import DownloadModal from "@/app/downloads/components/DownloadModal";
+import FavouriteListModal from "@/app/favorites/components/FavouriteListModal";
+import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
+import { addToFav } from "@/actions/favorites";
+import { downloadItem } from "@/actions/downloads";
 
 interface seriesInterface {
     judul: string; 
@@ -20,16 +25,67 @@ interface seriesInterface {
 
 const halamanSeries = ({ params }: { params: { slug: string } }) => {
     const [series, setSeries] = useState<seriesInterface>();
+    const [username, setUsername] = useState("");
+    const [showDownloadModal, setShowDownloadModal] = useState(false);
+    const [showFavouriteListModal, setShowFavouriteListModal] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [selectedSeriesTitle, setSelectedSeriesTitle] = useState("");
 
     useEffect(() => {
+        const storedUsername = localStorage.getItem("username");
+        if (storedUsername) {
+            setUsername(storedUsername);
+        }
+
         const getData = async () => {
             const data = await getSeriesById(params.slug);
             setSeries(data);
         };
 
         getData();
-    }, []);
+    }, [params.slug]);
 
+    const handleDownload = async () => {
+        if (!username) {
+            setModalMessage("Username not found");
+            setShowConfirmationModal(true);
+            return;
+        }
+
+        const timestamp = new Date().toISOString();
+        const result = await downloadItem(username, params.slug, timestamp);
+
+        if (result !== "Item downloaded successfully") {
+            setModalMessage("Tayangan sudah ada di daftar unduhan");
+            setShowConfirmationModal(true);
+        } else {
+            setModalMessage(result);
+            setShowDownloadModal(true);
+        }
+    };
+
+    const handleAddToFavorite = () => {
+        setSelectedSeriesTitle(series?.judul || "");
+        setShowFavouriteListModal(true);
+    };
+
+    const handleFavoriteConfirm = async (timestamp: string) => {
+        if (!username) {
+            setModalMessage("Username not found");
+            setShowConfirmationModal(true);
+            return;
+        }
+
+        const result = await addToFav(username, params.slug, timestamp);
+
+        if (result !== "Successfully Added") {
+            setModalMessage("Tayangan sudah ada di daftar tersebut");
+            setShowConfirmationModal(true);
+        } else {
+            console.log(result);
+        }
+    };
 
     return (
         <section className="flex flex-col gap-6 px-4 md:px-10 py-3 md:py-5 mt-20">
@@ -44,20 +100,13 @@ const halamanSeries = ({ params }: { params: { slug: string } }) => {
                     <ul className="list-disc list-inside">
                         {series?.eps_subjudul.map((ep) => (
                             <li key={ep}><Link href={params.slug + "/" + ep}>{ep}</Link></li>
-                            // {film ? (
-                            //     <Link href={film.url_video_trailer}>
-                            //       {film.url_video_trailer}
-                            //     </Link>
-                            //   ) : (
-                            //     "-"
-                            //   )}
                         ))}
                     </ul>
                 </div>
 
                 <div className="flex flex-col space-y-3">                    
-                    <button className="btn btn-primary"> Unduh Tayangan </button>
-                    <button className="btn btn-primary"> Favorit Tayangan </button>
+                    <button className="btn btn-primary" onClick={handleDownload}> Unduh Tayangan </button>
+                    <button className="btn btn-primary" onClick={handleAddToFavorite}> Favorit Tayangan </button>
                 </div>
                 <div>
                     <p><span className="font-medium"> Total View: </span> {series?.total_view} </p>
@@ -95,10 +144,30 @@ const halamanSeries = ({ params }: { params: { slug: string } }) => {
                 <p><span className="font-medium"> Sutradara: </span> {series?.sutradara}</p>
 
                 <BagianUlasan id={params.slug} /> 
+
+                <DownloadModal
+                    show={showDownloadModal}
+                    onClose={() => setShowDownloadModal(false)}
+                    showTitle={series?.judul || ""}
+                />
+
+                <FavouriteListModal
+                    show={showFavouriteListModal}
+                    onClose={() => setShowFavouriteListModal(false)}
+                    username={username}
+                    judul={selectedSeriesTitle}
+                    onConfirm={handleFavoriteConfirm}
+                />
+
+                <ConfirmationModal
+                    show={showConfirmationModal}
+                    onClose={() => setShowConfirmationModal(false)}
+                    message={modalMessage}
+                    onConfirm={() => setShowConfirmationModal(false)}
+                />
             </div>
-
         </section>
-    ); 
-}
+    );
+};
 
-export default withAuth(halamanSeries); 
+export default withAuth(halamanSeries);

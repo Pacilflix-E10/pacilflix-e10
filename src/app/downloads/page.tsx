@@ -2,8 +2,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import downloads from "./api/download";
-import deleteDownloadedItem from "@/app/downloads/api/delete";
+import { downloads, deleteDownloadedItem } from "@/actions/downloads";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
 import { title } from "process";
 

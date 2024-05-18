@@ -2,8 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
-import getfav from "@/app/favorites/api/getFav";
-import deleteDaftarFavorit from "@/app/favorites/api/delFav";
+import { getfav, deleteDaftarFavorit } from "@/actions/favorites";
 
 
 interface DaftarFav {
