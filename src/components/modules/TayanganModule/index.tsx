@@ -6,7 +6,7 @@ import { Film } from "./sections/Film";
 import { Series } from "./sections/Series";
 import { HasilPencarian } from "./sections/HasilPencarian";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 export const TayanganModule = () => {
     const searchParams = useSearchParams();
@@ -15,12 +15,15 @@ export const TayanganModule = () => {
             DAFTAR TAYANGAN 
         </h1>
         <SearchBar /> 
-        { searchParams.get('search') ? <HasilPencarian filter={searchParams.get('search')} /> :         
-            <>
-                <TayanganTerbaik />
-                <Film /> 
-                <Series />
-            </>
-        }
+        <Suspense fallback={<p>Loading...</p>}>
+            { searchParams.get('search') ? <HasilPencarian filter={searchParams.get('search')} /> :         
+                <>
+                    <TayanganTerbaik />
+                    <Film /> 
+                    <Series />
+                </>
+            }
+        </Suspense>
+        
     </section>
 }
