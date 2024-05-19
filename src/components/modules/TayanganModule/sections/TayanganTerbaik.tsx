@@ -65,7 +65,7 @@ export const TayanganTerbaik = () => {
                           : "/tayangan/series/" + d.id
                       }
                     >
-                      <button className="btn">Nonton</button>
+                      <button className="btn">Halaman Tayangan</button>
                     </Link>{" "}
                   </td>
                 )}
