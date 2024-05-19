@@ -67,7 +67,7 @@ export const Series = () => {
                 {isLoggedIn && (
                   <td>
                     <Link href={pathName + "/series/" + series.id}>
-                      <button className="btn">Nonton</button>
+                      <button className="btn">Halaman Tayangan</button>
                     </Link>{" "}
                   </td>
                 )}

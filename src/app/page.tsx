@@ -6,8 +6,6 @@ import Link from "next/link";
 
 const Home = () => {
 
-
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center relative">
       <Image src="/home-bg.jpg" alt="Photo by Donald Tong" fill className="object-cover brightness-50 z-0" />

@@ -67,7 +67,7 @@ export const Film = () => {
                 {isLoggedIn && (
                   <td>
                     <Link href={pathName + "/film/" + film.id}>
-                      <button className="btn">Nonton</button>
+                      <button className="btn">Halaman Tayangan</button>
                     </Link>{" "}
                   </td>
                 )}

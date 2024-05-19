@@ -31,7 +31,7 @@ const Navbar = () => {
               <Link href='/' className="transition block duration-300 hover:font-bold">Home</Link>
             </li>
             <li>
-              <Link href='/shows' className="transition block duration-300 hover:font-bold">Shows</Link>
+              <Link href='/tayangan' className="transition block duration-300 hover:font-bold">Shows</Link>
             </li>
             <li>
               <Link href='/contributors' className="transition block duration-300 hover:font-bold">Contributors</Link>
@@ -46,7 +46,10 @@ const Navbar = () => {
               <Link href='/subscriptions' className="transition block duration-300 hover:font-bold">Subscriptions</Link>
             </li>
           </ul>
-          : null
+          : 
+          <p>
+            <Link href="/tayangan" className='hover:font-bold text-white'>Trailer</Link>
+          </p>
         }
         <ul className='flex gap-4 items-center text-white'>
           {
