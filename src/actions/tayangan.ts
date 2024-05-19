@@ -15,11 +15,15 @@ export async function getAllSeries() {
 
 export async function getTopTenTayangan() {
     const QUERY = `
-        SELECT ta.id, ta.judul, ta.sinopsis, ta.asal_negara, ta.url_video_trailer, ta.release_date_trailer, ta.id_sutradara, COALESCE(COUNT(*),0) AS total_view
+        SELECT ta.id, ta.judul, ta.sinopsis, ta.asal_negara, ta.url_video_trailer, ta.release_date_trailer, ta.id_sutradara, COALESCE(rt.total_view, 0) as total_view
         FROM tayangan ta
-        LEFT JOIN riwayat_nonton rn
-        ON ta.id = rn.id_tayangan 
-        GROUP BY ta.id
+        JOIN (
+            SELECT id_tayangan, COUNT(*) as total_view
+            FROM riwayat_nonton 
+            WHERE end_date_time > NOW() - INTERVAL '7 days'
+            GROUP BY id_tayangan
+        ) as rt 
+        ON ta.id = rt.id_tayangan
         ORDER BY total_view DESC
         LIMIT 10;
     `; 
