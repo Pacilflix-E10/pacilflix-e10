@@ -21,8 +21,9 @@ const Home = () => {
           A streaming service for everyone
         </p>
         <div className="flex gap-3">
+
           <Link href="/auth/login" className="btn btn-primary mt-5 mx-auto text-white">Get Started</Link>
-          <Link href="/auth/login" className="btn btn-secondary mt-5 mx-auto text-white">View More</Link>
+          <Link href="/shows" className="btn btn-secondary mt-5 mx-auto text-white">View More</Link>
         </div>
       </article>
       
