@@ -10,7 +10,9 @@ import { Suspense, useEffect, useState } from "react";
 
 export const TayanganModule = () => {
     const searchParams = useSearchParams();
-    return <section className="flex flex-col gap-6 px-4 md:px-10 py-3 md:py-5 mt-20">
+    return (
+    <Suspense fallback={<p>Loading...</p>}>
+    <section className="flex flex-col gap-6 px-4 md:px-10 py-3 md:py-5 mt-20">
         <h1 className="text-center font-bold text-[24px] md:text-[32px]">
             DAFTAR TAYANGAN 
         </h1>
@@ -26,4 +28,6 @@ export const TayanganModule = () => {
         </Suspense>
         
     </section>
+    </Suspense>
+    )
 }
