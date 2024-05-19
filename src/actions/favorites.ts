@@ -11,7 +11,7 @@ async function addToFav(username: string, movieId: string, timestamp: string) {
   try {
     const { rowCount } = await sql`
     INSERT INTO TAYANGAN_MEMILIKI_DAFTAR_FAVORIT (id_tayangan, username, timestamp)
-    VALUES (${movieId}, ${username}, ${timestampDate});
+    VALUES (${movieId}, ${username}, ${timestampDate as any});
     `;
 
     if (rowCount === 0) {
@@ -38,7 +38,7 @@ async function deleteFavMovie(username: string, judul: string, timestamp: string
     DELETE FROM TAYANGAN_MEMILIKI_DAFTAR_FAVORIT
     WHERE username = ${username}
     AND id_tayangan IN (SELECT id FROM TAYANGAN WHERE judul = ${judul})
-    AND timestamp = ${timestampDate};
+    AND timestamp = ${timestampDate as any};
   `;
 
   if (rowCount === 0) {
@@ -63,7 +63,7 @@ async function deleteDaftarFavorit(username: string, judul: string, timestamp: s
       DELETE FROM DAFTAR_FAVORIT
       WHERE username = ${username}
       AND judul = ${judul}
-      AND timestamp = ${timestampDate};
+      AND timestamp = ${timestampDate as any};
     `;
 
     if (rowCount === 0) {
@@ -98,7 +98,7 @@ async function getMovieFav(timestamp: string): Promise<MovieFav[] | string> {
       FROM TAYANGAN_MEMILIKI_DAFTAR_FAVORIT tm
       JOIN TAYANGAN t ON tm.id_tayangan = t.id
       JOIN DAFTAR_FAVORIT df ON df.timestamp = tm.timestamp
-      WHERE tm.timestamp = ${timestampDate};
+      WHERE tm.timestamp = ${timestampDate as any};
     `;
 
     if (rowCount === 0) {

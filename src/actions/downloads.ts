@@ -8,13 +8,17 @@ async function deleteDownloadedItem(username: string, judul: string, timestamp: 
 
   // Convert string timestamp to a Date object, assuming timestamp is in ISO format
   const timestampDate = new Date(timestamp);
+  const timestampDate2 = new Date(timestamp);
+
+  console.log(timestampDate);
+  console.log(timestampDate2);
 
   try {
     const { rowCount } = await sql`
     DELETE FROM TAYANGAN_TERUNDUH
     WHERE username = ${username}
     AND id_tayangan IN (SELECT id FROM TAYANGAN WHERE judul = ${judul})
-    AND timestamp = ${timestampDate};
+    AND timestamp = ${timestampDate as any};
         `;
 
     if (rowCount === 0) {
@@ -73,7 +77,7 @@ interface DownloadedItem {
     try {
       const { rowCount } = await sql`
         INSERT INTO TAYANGAN_TERUNDUH (id_tayangan, username, timestamp)
-        VALUES (${movieId}, ${username}, ${timestampDate});
+        VALUES (${movieId}, ${username}, ${timestampDate as any});
       `;
   
       if (rowCount === 0) {
