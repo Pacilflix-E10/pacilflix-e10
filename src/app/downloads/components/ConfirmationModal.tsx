@@ -1,6 +1,18 @@
 import React from 'react';
 
-const ConfirmationModal = ({ show, onClose, message, onConfirm }) => {
+interface ConfirmationModalProps {
+  show: boolean;
+  onClose: () => void;
+  message: string;
+  onConfirm: () => void;
+}
+
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+  show,
+  onClose,
+  message,
+  onConfirm,
+}) => {
   return (
     <>
       {show && (
