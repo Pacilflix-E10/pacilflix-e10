@@ -7,9 +7,14 @@ import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
 import { title } from "process";
 import withAuth from "@/hoc/withAuth";
 
+interface DownloadedItem {
+  judul: string;
+  timestamp: string;
+}
+
 const DownloadsPage = () => {
   const [username, setUsername] = useState("");
-  const [downloadedItems, setDownloadedItems] = useState([]);
+  const [downloadedItems, setDownloadedItems] = useState<DownloadedItem[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
@@ -21,7 +26,7 @@ const DownloadsPage = () => {
     }
   }, []);
 
-  const fetchDownloads = async (username) => {
+  const fetchDownloads = async (username: string) => {
     try {
       const data = await downloads(username);
       if (typeof data === "string") {
@@ -34,7 +39,7 @@ const DownloadsPage = () => {
     }
   };
 
-  const deleteItem = async (judul, timestamp) => {
+  const deleteItem = async (judul: string, timestamp: string) => {
     try {
       const data = await deleteDownloadedItem(username, judul, timestamp);
       if (data === "Item deleted") {
