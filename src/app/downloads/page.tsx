@@ -5,6 +5,7 @@ import Link from "next/link";
 import { downloads, deleteDownloadedItem } from "@/actions/downloads";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
 import { title } from "process";
+import withAuth from "@/hoc/withAuth";
 
 const DownloadsPage = () => {
   const [username, setUsername] = useState("");
@@ -107,4 +108,4 @@ const DownloadsPage = () => {
   );
 };
 
-export default DownloadsPage;
+export default withAuth(DownloadsPage);

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
 import { deleteFavMovie, getMovieFav } from "@/actions/favorites";
+import withAuth from "@/hoc/withAuth";
+
 
 interface MovieData {
   judul: string;
@@ -124,4 +126,4 @@ const MovieListPage = () => {
   );
 };
 
-export default MovieListPage;
+export default withAuth(MovieListPage);

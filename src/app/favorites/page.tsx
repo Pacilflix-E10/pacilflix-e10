@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ConfirmationModal from "@/app/downloads/components/ConfirmationModal";
 import { getfav, deleteDaftarFavorit } from "@/actions/favorites";
+import withAuth from "@/hoc/withAuth";
 
 
 interface DaftarFav {
@@ -118,4 +119,4 @@ const FavouritesPage = () => {
   );
 };
 
-export default FavouritesPage;
+export default withAuth(FavouritesPage);
