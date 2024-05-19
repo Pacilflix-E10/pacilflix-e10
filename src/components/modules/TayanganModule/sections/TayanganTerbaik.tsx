@@ -2,9 +2,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { tayanganInterface } from "../interface";
-import { checkIsFilm, getTopTenTayangan } from "@/actions/tayangan";
+import { getTopTenTayangan } from "@/actions/tayangan";
 import { MONTH } from "../constants";
-import { usePathname } from "next/navigation";
 
 export const TayanganTerbaik = () => {
   const [data, setData] = useState<tayanganInterface[]>([]);
